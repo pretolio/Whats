@@ -72,35 +72,38 @@ class _AbaContatosState extends State<AbaContatos> {
             break;
           case ConnectionState.active:
           case ConnectionState.done:
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (_, indice) {
+            if(snapshot.data == null){
+              return Container();
+            }else {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, indice) {
+                    List<Usuario> listaItens = snapshot.data;
+                    Usuario usuario = listaItens[indice];
 
-                  List<Usuario> listaItens = snapshot.data;
-                  Usuario usuario = listaItens[indice];
-
-                  return ListTile(
-                    onTap: (){
-                      Navigator.pushNamed(
-                          context,
-                          "/mensagens",
-                        arguments: usuario
-                      );
-                    },
-                    contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    leading: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: usuario.urlImagem != null
-                            ? NetworkImage(usuario.urlImagem)
-                            : null),
-                    title: Text(
-                      usuario.nome,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  );
-                });
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context,
+                            "/mensagens",
+                            arguments: usuario
+                        );
+                      },
+                      contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      leading: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundColor: Colors.grey,
+                          backgroundImage: usuario.urlImagem != null
+                              ? NetworkImage(usuario.urlImagem)
+                              : null),
+                      title: Text(
+                        usuario.nome,
+                        style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    );
+                  });
+            }
             break;
         }
       },
